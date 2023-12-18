@@ -35,11 +35,11 @@ void CREATE(playlist** playlists) {
     (*playlists)->qtd++;
     
     //malocando para mais uma playlist 
-    *playlists = (playlist*)realloc(*playlists, (*playlists)->qtd * sizeof(playlist));
-    if (*playlists == NULL) {
-        printf("erro criando mais uma playlist\n");
-        exit(EXIT_FAILURE);
-    }
+    // *playlists = (playlist*)realloc(*playlists, (*playlists)->qtd * sizeof(playlist));
+    // if (*playlists == NULL) {
+    //     printf("erro criando mais uma playlist\n");
+    //     exit(EXIT_FAILURE);
+    // }
 
     // malocando para os nomes das musicas
     (*playlists)->nome_mus = (char***)realloc((*playlists)->nome_mus, (*playlists)->qtd * sizeof(char**));
@@ -112,9 +112,10 @@ void DEL(playlist* playlists, char* nome){
     scanf("%d", &id);
 
     for(int i = 0 ; i < playlists->qtd; i++){
+        int flag  =1;
         if(id == playlists->id[i]){
 
-            for(int j = 0 ; j < playlists->qtd_mus[i]; j++){
+            for(int j = 0 ; j < playlists->qtd_mus[i] && flag != 0; j++){
                 if(strcmp(playlists->nome_mus[i][j], nome) == 0){
                     printf("tirando a música %s em questão da playlist %d", nome, id);
                     free(playlists->nome_mus[i][j]); // free maroto reio de guerra
@@ -122,8 +123,10 @@ void DEL(playlist* playlists, char* nome){
                     for (int k = j; k < playlists->qtd_mus[i] - 1; k++) {
                         playlists->nome_mus[i][k] = playlists->nome_mus[i][k + 1];
                     }
+                    // atualizando o valor de musicas daquela playlist
                     playlists->qtd_mus[i]--;
-                    break; 
+                    flag = 0;
+                    //break; 
                 }
 
                 else{
@@ -140,39 +143,42 @@ void DEL(playlist* playlists, char* nome){
 
 void BAN(playlist* playlists, char* nome) {
     for (int i = 0; i < playlists->qtd; i++) {
+        //int flag = 1;
         for (int j = 0; j < playlists->qtd_mus[i]; j++) {
             if (strcmp(nome, playlists->nome_mus[i][j]) == 0) {
-                printf("Removendo a música %s de todas as playlists\n", nome);
+                printf("Removendo a música %s da playlist %d\n", nome, playlists->id[i]);
                 free(playlists->nome_mus[i][j]);
 
-                // Shift songs after the deleted one
+                // deslocando as musicas para preencher o vazio
                 for (int k = j; k < playlists->qtd_mus[i] - 1; k++) {
                     playlists->nome_mus[i][k] = playlists->nome_mus[i][k + 1];
                 }
 
-                // Update the number of songs in the current playlist
+                // atualizando o valor de musicas daquela playlist
                 playlists->qtd_mus[i]--;
+                //flag = 0;
             }
         }
     }
 }
 
 void PRINT_ONE(playlist* playlists, int id){
+    int flag = 1;
 
-    for(int i = 0 ; i < playlists->qtd; i++){
+    for(int i = 0 ; i < playlists->qtd && flag != 0; i++){
         if(id == playlists->id[i]){
             printf("as musicas da playlist %d são: \n", playlists->id[i]);
             for(int j = 0; j < playlists->qtd_mus[i]; j++){
                 printf("%s\n", playlists->nome_mus[i][j]);
             }
 
-
+            flag = 0;
             
         }
         
 
         else{
-            //printf("não achei essa playlist\n");
+            printf("não achei essa playlist\n");
         }
     }
 }
