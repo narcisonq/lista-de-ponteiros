@@ -16,13 +16,13 @@ void CREATE(playlist** playlists) {
 
     (*playlists)->id = (int*)realloc((*playlists)->id, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->id == NULL) {
-        fprintf(stderr, "erro alocando memoria para id, compre mais RAM\n");
-        exit(EXIT_FAILURE);
+        printf(stderr, "erro alocando memoria para id, compre mais RAM\n");
+        
     }
 
     (*playlists)->qtd_mus = (int*)realloc((*playlists)->qtd_mus, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->qtd_mus == NULL) {
-        fprintf(stderr, "Erro alocando memoria para qtd_mus\n");
+        printf(stderr, "Erro alocando memoria para qtd_mus\n");
         exit(EXIT_FAILURE);
     }
 
@@ -34,14 +34,14 @@ void CREATE(playlist** playlists) {
 
     *playlists = (playlist*)realloc(*playlists, (*playlists)->qtd * sizeof(playlist));
     if (*playlists == NULL) {
-        fprintf(stderr, "erro criando mais uma playlist\n");
+        printf(stderr, "erro criando mais uma playlist\n");
         exit(EXIT_FAILURE);
     }
 
     // Allocate memory for nome_mus
     (*playlists)->nome_mus = (char***)realloc((*playlists)->nome_mus, (*playlists)->qtd * sizeof(char**));
     if ((*playlists)->nome_mus == NULL) {
-        fprintf(stderr, "Erro alocando memoria para nome_mus\n");
+        printf(stderr, "Erro alocando memoria para nome_mus\n");
         exit(EXIT_FAILURE);
     }
 
@@ -64,13 +64,13 @@ void ADD(playlist* playlists, char* nome) {
             playlists->qtd_mus[i]++;
             playlists->nome_mus[i] = (char**)realloc(playlists->nome_mus[i], playlists->qtd_mus[i] * sizeof(char*)); // realocando para mais uma musica
             if (playlists->nome_mus[i] == NULL) {
-                fprintf(stderr, "Erro alocando memoria para (mais uma) nome_mus[%d]\n", i);
+                printf(stderr, "Erro alocando memoria para (mais uma) nome_mus[%d]\n", i);
                 exit(EXIT_FAILURE);
             }
 
             playlists->nome_mus[i][playlists->qtd_mus[i] - 1] = (char*)malloc(strlen(nome) + 1); // malocando para o nome da musica
             if (playlists->nome_mus[i][playlists->qtd_mus[i] - 1] == NULL) {
-                fprintf(stderr, "Erro alocando memoria para o nome_mus[%d][%d]\n", i, playlists->qtd_mus[i] - 1);
+                printf(stderr, "Erro alocando memoria para o nome_mus[%d][%d]\n", i, playlists->qtd_mus[i] - 1);
                 exit(EXIT_FAILURE);
             }
 
@@ -142,12 +142,12 @@ void BAN(playlist* playlists, char* nome) {
                 printf("Removendo a música %s de todas as playlists\n", nome);
                 free(playlists->nome_mus[i][j]);
 
-                //deslocando as musicas
+                // Shift songs after the deleted one
                 for (int k = j; k < playlists->qtd_mus[i] - 1; k++) {
                     playlists->nome_mus[i][k] = playlists->nome_mus[i][k + 1];
                 }
 
-                //atualizando o numero de musicas
+                // Update the number of songs in the current playlist
                 playlists->qtd_mus[i]--;
             }
         }
@@ -176,63 +176,3 @@ void PRINT_ONE(playlist* playlists, int id){
 
 
 int main() {
-    playlist* playlists;
-
-    playlists = (playlist*)malloc(1 * sizeof(playlist)); // criando a primeira playlist
-
-    playlists->qtd = 0;
-    playlists->qtd_mus = NULL;
-    playlists->nome_mus = NULL;
-
-    int acao = -1;
-    while(acao != 7){
-        printf("\n\ndigite 1 para criar playlist\ndigite 2 para adicionar musica em determinada playlist\ndigite 3 para tirar musica de determinada playlist\ndigite 4 para tirar musica de todas as playlists\ndigite 5 pra printar tudo\ndigite 6 para printar uma\ndigite 7 pra sair: ");
-        scanf("%d", &acao);
-        
-        if(acao == 1){
-            CREATE(&playlists);
-        }
-        
-        else if(acao == 2){
-            char nome[30];
-            printf("digite o nome da musica: ");
-            scanf(" %s", nome);
-            
-            ADD(playlists, nome);        
-        }      
-
-        else if(acao == 3){
-            char nome[30];
-            printf("\ndigite o nome da musica para ser deletada: ");
-            scanf("%s", nome);
-            DEL(playlists, nome);
-
-        }
-
-        else if(acao == 4){
-            char nome[30];
-            printf("\ndigite o nome da musica para ser deletada de todas as playlists: ");
-            scanf("%s", nome);
-            BAN(playlists, nome);
-        }
-
-        else if(acao == 5){
-            PRINT_ALL(playlists);
-        }
-
-        else if(acao == 6){
-            int id;
-            printf("\ndigite o id da playlist: ");
-            scanf("%d", &id);
-            PRINT_ONE(playlists, id);
-        }
-
-        else if(acao == 7){
-            printf("\n\naté mais...\n\n");
-            FIM(playlists);
-        }
-    }
-
-    return 0;
-   
-}
