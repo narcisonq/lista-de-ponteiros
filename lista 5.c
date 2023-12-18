@@ -176,3 +176,63 @@ void PRINT_ONE(playlist* playlists, int id){
 
 
 int main() {
+    playlist* playlists;
+
+    playlists = (playlist*)malloc(1 * sizeof(playlist)); // criando a primeira playlist
+
+    playlists->qtd = 0;
+    playlists->qtd_mus = NULL;
+    playlists->nome_mus = NULL;
+
+    int acao = -1;
+    while(acao != 7){
+        printf("\n\ndigite 1 para criar playlist\ndigite 2 para adicionar musica em determinada playlist\ndigite 3 para tirar musica de determinada playlist\ndigite 4 para tirar musica de todas as playlists\ndigite 5 pra printar tudo\ndigite 6 para printar uma\ndigite 7 pra sair: ");
+        scanf("%d", &acao);
+        
+        if(acao == 1){
+            CREATE(&playlists);
+        }
+        
+        else if(acao == 2){
+            char nome[30];
+            printf("digite o nome da musica: ");
+            scanf(" %s", nome);
+            
+            ADD(playlists, nome);        
+        }      
+
+        else if(acao == 3){
+            char nome[30];
+            printf("\ndigite o nome da musica para ser deletada: ");
+            scanf("%s", nome);
+            DEL(playlists, nome);
+
+        }
+
+        else if(acao == 4){
+            char nome[30];
+            printf("\ndigite o nome da musica para ser deletada de todas as playlists: ");
+            scanf("%s", nome);
+            BAN(playlists, nome);
+        }
+
+        else if(acao == 5){
+            PRINT_ALL(playlists);
+        }
+
+        else if(acao == 6){
+            int id;
+            printf("\ndigite o id da playlist: ");
+            scanf("%d", &id);
+            PRINT_ONE(playlists, id);
+        }
+
+        else if(acao == 7){
+            printf("\n\naté mais...\n\n");
+            FIM(playlists);
+        }
+    }
+
+    return 0;
+   
+}
