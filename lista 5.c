@@ -13,13 +13,15 @@ void CREATE(playlist** playlists) {
     int id;
     printf("digite o id da playlist: ");
     scanf("%d", &id);
-
+    
+    //realocando para mais uma id de playlist
     (*playlists)->id = (int*)realloc((*playlists)->id, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->id == NULL) {
         printf("erro alocando memoria para id, compre mais RAM\n");
         
     }
-
+    
+    //realocando para mais uma quantidade de músicas
     (*playlists)->qtd_mus = (int*)realloc((*playlists)->qtd_mus, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->qtd_mus == NULL) {
         printf("Erro alocando memoria para qtd_mus\n");
@@ -31,14 +33,15 @@ void CREATE(playlist** playlists) {
     (*playlists)->id[(*playlists)->qtd] = id;
 
     (*playlists)->qtd++;
-
+    
+    //malocando para mais uma playlist 
     *playlists = (playlist*)realloc(*playlists, (*playlists)->qtd * sizeof(playlist));
     if (*playlists == NULL) {
         printf("erro criando mais uma playlist\n");
         exit(EXIT_FAILURE);
     }
 
-    // Allocate memory for nome_mus
+    // malocando para os nomes das musicas
     (*playlists)->nome_mus = (char***)realloc((*playlists)->nome_mus, (*playlists)->qtd * sizeof(char**));
     if ((*playlists)->nome_mus == NULL) {
         printf("Erro alocando memoria para nome_mus\n");
