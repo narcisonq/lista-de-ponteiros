@@ -34,14 +34,14 @@ void CREATE(playlist** playlists) {
 
     *playlists = (playlist*)realloc(*playlists, (*playlists)->qtd * sizeof(playlist));
     if (*playlists == NULL) {
-        printf(stderr, "erro criando mais uma playlist\n");
+        printf("erro criando mais uma playlist\n");
         exit(EXIT_FAILURE);
     }
 
     // Allocate memory for nome_mus
     (*playlists)->nome_mus = (char***)realloc((*playlists)->nome_mus, (*playlists)->qtd * sizeof(char**));
     if ((*playlists)->nome_mus == NULL) {
-        printf(stderr, "Erro alocando memoria para nome_mus\n");
+        printf("Erro alocando memoria para nome_mus\n");
         exit(EXIT_FAILURE);
     }
 
