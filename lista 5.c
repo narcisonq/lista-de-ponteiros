@@ -16,13 +16,13 @@ void CREATE(playlist** playlists) {
 
     (*playlists)->id = (int*)realloc((*playlists)->id, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->id == NULL) {
-        printf(stderr, "erro alocando memoria para id, compre mais RAM\n");
+        printf("erro alocando memoria para id, compre mais RAM\n");
         
     }
 
     (*playlists)->qtd_mus = (int*)realloc((*playlists)->qtd_mus, ((*playlists)->qtd + 1) * sizeof(int));
     if ((*playlists)->qtd_mus == NULL) {
-        printf(stderr, "Erro alocando memoria para qtd_mus\n");
+        printf("Erro alocando memoria para qtd_mus\n");
         exit(EXIT_FAILURE);
     }
 
@@ -64,13 +64,13 @@ void ADD(playlist* playlists, char* nome) {
             playlists->qtd_mus[i]++;
             playlists->nome_mus[i] = (char**)realloc(playlists->nome_mus[i], playlists->qtd_mus[i] * sizeof(char*)); // realocando para mais uma musica
             if (playlists->nome_mus[i] == NULL) {
-                printf(stderr, "Erro alocando memoria para (mais uma) nome_mus[%d]\n", i);
+                printf("Erro alocando memoria para (mais uma) nome_mus[%d]\n", i);
                 exit(EXIT_FAILURE);
             }
 
             playlists->nome_mus[i][playlists->qtd_mus[i] - 1] = (char*)malloc(strlen(nome) + 1); // malocando para o nome da musica
             if (playlists->nome_mus[i][playlists->qtd_mus[i] - 1] == NULL) {
-                printf(stderr, "Erro alocando memoria para o nome_mus[%d][%d]\n", i, playlists->qtd_mus[i] - 1);
+                printf("Erro alocando memoria para o nome_mus[%d][%d]\n", i, playlists->qtd_mus[i] - 1);
                 exit(EXIT_FAILURE);
             }
 
