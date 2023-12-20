@@ -51,14 +51,14 @@ void InserirOuAtualizar(Cidade* censo, int tam){
 
     int codigo;
     printf("\ndigite o codigo da cidade que essa pessoa reside: ");
-    scanf("%d", codigo);
+    scanf("%d", &codigo);
 
     int flag = 0;
     for(int i = 0; i < tam; i++){
         if(codigo == censo[i].codigo){
             for(int j = 0; j < censo[i].capacidade && flag != 1; j++){
                 if(strcmp(cpf, censo[i].cidadaos[j].CPF) == 0){
-                    printf("essa pessoa já foi cadastrada, então atualizamos os dados dela");
+                    printf("essa pessoa já foi cadastrada, então atualizamos os dados dela\n");
 
                     /*atribuindo as informações da nova pessoa*/
 
@@ -75,7 +75,7 @@ void InserirOuAtualizar(Cidade* censo, int tam){
 
             if(flag == 0){ 
                     //não achou no banco de dados, cria a pessoa do 0
-                    printf("essa pessoa está sendo cadastrada no banco de dados");
+                    printf("essa pessoa está sendo cadastrada no banco de dados\n");
                     censo[i].cidadaos = realloc(censo[i].cidadaos, (censo[i].capacidade + 1) * sizeof(Pessoa)); //realloc para caber mais 1
 
                     // atribuindo os valores
@@ -166,7 +166,8 @@ void ViewTable(Cidade* censo, int tam){
 
         for(int j = 0 ; j < censo[i].capacidade ; j++){
 
-                printf("a pessoa se chama: %s\n é da etnia %s\ntem %d anos\nganha %.2f de salário\n", censo[i].cidadaos[j].nome,
+                printf("a pessoa se chama: %s\n é da etnia %s\ntem %d anos\nganha %.2f de salário\n", 
+                censo[i].cidadaos[j].nome,
                 censo[i].cidadaos[j].raca, 
                 censo[i].cidadaos[j].idade, 
                 censo[i].cidadaos[j].salario);
